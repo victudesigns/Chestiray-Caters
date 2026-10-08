@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="media/Chestiray_W_icon.png" type="image/x-icon">
-    <title>Chestiray</title>
+    <title>Chestiray - Best for Your Favorite Food & Catering</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,17 +15,16 @@
             <nav>
                 <a href="#home">home</a>
                 <a href="catering.html">catering</a>
-                <a href="#pricing">pricing</a>
+                <a href="booking.html">booking</a>
                 <a href="aboutUs.html">about us</a>
                 <a href="contact.html">contact</a>
             </nav>
             <div class="utility">
-                <button class="search-btn">
-                    <i class="fa-solid fa-search"></i>
-                </button>
-                <button class="profile-btn">
-                    <i class="fa-solid fa-user"></i>
-                </button>
+                <a href="register.html">
+                    <button class="profile-btn">
+                        <i class="fa-solid fa-user"></i>
+                    </button>
+                </a>
                 <button class="cart-btn">
                     <i class="fa-solid fa-bag-shopping"></i>
                     <span id="counter">0</span>
@@ -38,23 +38,7 @@
             <div class="cart-title">Your Cart</div>
         </div>
         <div class="cart-items">
-            <div class="cart-item">
-                <div class="cart-item-discription">
-                    <img src="media/Chicken_biryani.png" alt="">
-                    <div class="item-discriptions">
-                        <div class="cart-name">Chicken biryani</div>
-                        <div class="cart-price">$20.00</div>
-                    </div>
-                </div>
-                <div class="cart-quanty">
-                    <div class="increase">-</div>
-                    <div class="number">1</div>
-                    <div class="decrease">+</div>
-                </div>
-                <div class="remove-cart-item">
-                    x
-                </div>
-            </div>
+            
         </div>
         <div class="cart-checkout">
             <div class="checkout-top">
@@ -67,31 +51,47 @@
         </div>
     </div>
 
-    <section class="hero">
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
         <div class="overlay"></div>
         <div class="container inner-hero">
             <div class="hero-content">
-                <span class="hero-subtitle">New Collection</span>
-                <h1>Curated Flavors for the Modern Palate</h1>
+                <h1>Best for Your Favorite Food & Catering</h1>
                 <p>
                     Experience the art of artisanal curation with our hand-selected seasonal favorites, delivered directly to your door.
                 </p>
                 <div class="hero-actions">
-                    <a href="shop.html" class="btn-primary">Shop Collection</a>
-                    <a href="about.html" class="btn-secondary-outline">Our Story</a>
+                    <a href="catering.html" class="btn-primary click">Order Now</a>
+                    <!-- Functional Play Button replacing "Our Story" -->
+                    <button class="play-btn" id="openVideoBtn" aria-label="Play video">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
                 </div>
+                <!-- Updated hero-social -->
                 <div class="hero-social">
-                    <a href="" class="icon"></a>
-                    <a href="" class="icon"></a>
-                    <a href="" class="icon"></a>
-                    <a href="" class="icon"></a>
+                    <a href="#" class="icon" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="icon" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="icon" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
                 </div>
             </div>
             <div class="hero-image">
                 <img src="media/rotate.png" alt="Luxury food curation">
             </div>
+            
         </div>
     </section>
+
+    <!-- OVERLAPPING VIDEO MODAL -->
+    <div class="video-modal" id="videoModal">
+        <div class="video-modal-overlay" id="closeVideoOverlay"></div>
+        <div class="video-modal-content">
+            <button class="close-modal-btn" id="closeVideoBtn">&times;</button>
+            <div class="video-wrapper">
+                <iframe id="promoVideo" src="media/catering video.mp4" title="Featured Catering Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
 
     <div class="service" id="services">
         <div class="container">
@@ -101,72 +101,176 @@
                     <h2>premium catering service for satisfaction</h2>
                 </div>
                 <div>
-                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum, sequi corrupti? Nemo rem sequi saepe perferendis amet nostrum dolor eius, distinctio illum? Excepturi magnam veritatis provident? Error atque libero minima!</p>
+                    <p>From intimate family gatherings to grand corporate galas, we deliver tailored culinary experiences that delight every palate.</p>
                     <button>all services</button>
                 </div>
             </div>
             <div class="service-cards">
                 <div class="service-card">
-                    <i class="service-icon"></i>
+                    <i class="service-icon fa-solid fa-utensils"></i>
                     <h3 class="service-title">corporate events</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic corrupti ea molestiae eveniet qui cupiditate non ipsa.</p>
-                    <a href="">read more <i class="fa-solid fa-right-arrow"></i></a>
+                    <p>Impress clients and energize your team with executive luncheons, conference catering, and formal dinners.</p>
+                    <a href="#">read more <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
                 <div class="service-card">
-                    <i class="service-icon"></i>
+                    <i class="service-icon fa-solid fa-champagne-glasses"></i>
                     <h3 class="service-title">wedding events</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic corrupti ea molestiae eveniet qui cupiditate non ipsa.</p>
-                    <a href="">read more <i class="fa-solid fa-right-arrow"></i></a>
+                    <p>Make your special day unforgettable with bespoke menus crafted by top culinary chefs tailored to your tastes.</p>
+                    <a href="#">read more <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
                 <div class="service-card">
-                    <i class="service-icon"></i>
+                    <i class="service-icon fa-solid fa-people-group"></i>
                     <h3 class="service-title">social events</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic corrupti ea molestiae eveniet qui cupiditate non ipsa.</p>
-                    <a href="">read more <i class="fa-solid fa-right-arrow"></i></a>
+                    <p>Elevate birthdays, anniversaries, and casual celebrations with custom platters and live cooking stations.</p>
+                    <a href="#">read more <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
     </div>
+
+    <section id="delicacy">
+        <div class="container">
+            <div class="inner-delicacy">
+                <div class="delicacy-img">
+                    <img src="media/woker.png" alt="Chef preparing delicacies">
+                </div>
+                <div class="delicacy-info">
+                    <h2>Modern delicacies</h2>
+                    <ul>
+                        <li>
+                            Hand-selected farm-fresh ingredients blended with contemporary culinary techniques.
+                        </li>
+                        <li>
+                            Customizable menus tailored to fit vegetarian, vegan, and gluten-free diets.
+                        </li>
+                        <li>
+                            Artisanal presentation crafted to create memorable dining moments for you and your guests.
+                        </li>
+                    </ul>
+                    <p class="delicacy-note">
+                        Experience gourmet dining prepared by passionate chefs right at your venue.
+                    </p>
+                    <button class="btn-primary click">book an event</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="reservation">
+        <div class="container">
+            <div class="inner-reservation">
+                <div class="reservation-img">
+                    <img src="media/order_image.png" alt="Table reservation setup">
+                </div>
+                <div class="reservation-info">
+                    <h2>our reservations</h2>
+                    <ul>
+                        <li>
+                            Flexible seating arrangements for private parties, romantic dates, and business meetings.
+                        </li>
+                        <li>
+                            Seamless online booking with instant confirmation and personalized dietary requests.
+                        </li>
+                        <li>
+                            Dedicated staff ensuring top-tier service throughout your dining experience.
+                        </li>
+                    </ul>
+                    <p class="reservation-note">
+                        Reserve your table today and let us prepare an unforgettable feast for you.
+                    </p>
+                    <button class="btn-primary click">book a reservation</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu">
+        <div class="container">
+            <div class="inner-menu">
+                <aside>
+                    <h3>our menu</h3>
+                    <ul class="menu-list">
+                        <li class="active">hot list</li>
+                        <li>wedding</li>
+                        <li>pastries</li>
+                        <li>delivery</li>
+                        <li>buffet</li>
+                        <li class="viewmore click"><a href="catering.html">view more</a></li>
+                    </ul>
+                </aside>
+                <main>
+                    <div class="product-body" id="first-root"></div>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact-section">
+        <div class="contact-section-body">
+            <h2>Ready to plan your next event with us?</h2>
+            <a href="contact.html">
+                <button class="btn-primary">contact us!</button>
+            </a>
+        </div>
+    </section>
+
+    <section class="gallary">
+        <div class="gall-img">
+            <img src="media/26247610323835722.jpg" alt="Gallery item 1">
+        </div>
+        <div class="gall-img">
+            <img src="media/about-bg.jpg" alt="Gallery item 2">
+        </div> 
+        <div class="gall-img">
+            <img src="media/about.jpg" alt="Gallery item 3">
+        </div>
+        <div class="gall-img">
+            <img src="media/item_1.jpg" alt="Gallery item 4">
+        </div>
+        <div class="gall-img">
+            <img src="media/waiter-serving-group-female-friends-meeting-drinks-food-restaurant_1218270-4737.jpg" alt="Gallery item 5">
+        </div>
+        <div class="gall-img">
+            <img src="media/jeans-sweater-darkhaired-woman-wearing-jeans-light-sweater-sitting-cafeteria-eating-sweet-pie_259150-47216.jpg" alt="Gallery item 6">
+        </div>
+    </section>
 
     <footer>
         <div class="container">
             <div class="inner-footer">
                 <div class="col-1">
                     <div class="logo">Chestiray</div>
-                    <p>
-                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur corrupti illum, ex quam vero molestias magnam.
-                    </p>
-                    <div class="location">
-                        <p><i class="fa-solid fa-location"></i> 45 owerri land, mile 4 drive</p>
-                        <p><i class="fa-solid fa-mail"></i> chestiray@gmail.com</p>
+                    <p>Delivering exquisite culinary experiences for corporate gatherings, weddings, and private celebrations.</p>
+                    <div class="footer-info">
+                        <p><i class="fa-solid fa-location-dot"></i> 45 Owerri Road, Mile 4 Drive</p>
+                        <p><i class="fa-solid fa-envelope"></i> chestiray@gmail.com</p>
                     </div>
                 </div>
                 <div>
-                    <h3>quit links</h3>
+                    <h3>Quick Links</h3>
                     <ul>
-                        <a href="#">about us</a>
-                        <a href="#">services</a>
-                        <a href="#">menu</a>
-                        <a href="#">pricing</a>
-                        <a href="#">contact</a>
+                        <li><a href="aboutUs.html">about us</a></li>
+                        <li><a href="catering.html">catering</a></li>
+                        <li><a href="booking.html">booking</a></li>
+                        <li><a href="contact.html">contact</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h3>useful links</h3>
+                    <h3>Useful Links</h3>
                     <ul>
-                        <a href="#">privacy policy</a>
-                        <a href="#">terms & conditions</a>
-                        <a href="#">FAQ</a>
+                        <li><a href="#">privacy policy</a></li>
+                        <li><a href="#">terms & conditions</a></li>
+                        <li><a href="#">FAQ</a></li>
                     </ul>
                 </div>
                 <div>
                     <h3>Newsletter</h3>
-                    <p>
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nam, itaque maxime?
-                    </p>
+                    <p>Subscribe to receive seasonal menu updates and catering offers.</p>
                     <div class="footer-input">
-                        <input type="text" placeholder="Your Email Address">
-                        <button type="submit">SEND</button>
+                        <form action="#" method="post">
+                            <input type="email" placeholder="Your Email Address" required>
+                            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -174,6 +278,7 @@
     </footer>
 
     <script src="index.js"></script>
-    <script src="https://kit.fontawesome.com/254301e431.js" crossorigin="anonymous"></script>
 </body>
 </html>
+
+        

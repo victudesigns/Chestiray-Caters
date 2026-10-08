@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="media/Chestiray_W_icon.png" type="image/x-icon">
-    <title>Chestiray / Shop</title>
+    <title>Catering & Menu - Chestiray</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,18 +14,15 @@
         <div class="side-nav">
             <nav>
                 <a href="index.html">home</a>
-                <a href="#">catering</a>
-                <a href="index.html#pricing">pricing</a>
+                <a href="catering.html">catering</a>
+                <a href="booking.html">booking</a>
                 <a href="aboutUs.html">about us</a> 
                 <a href="contact.html">contact</a>
             </nav>
             <div class="utility">
-                <button class="search-btn">
-                    <i class="fa-solid fa-search"></i>
-                </button>
-                <button class="profile-btn">
-                    <i class="fa-solid fa-user"></i>
-                </button>
+                <a href="register.html">
+                    <button class="profile-btn"><i class="fa-solid fa-user"></i></button>
+                </a>
                 <button class="cart-btn">
                     <i class="fa-solid fa-bag-shopping"></i>
                     <span id="counter">0</span>
@@ -37,40 +35,20 @@
         <div class="cart-head">
             <div class="cart-title">Your Cart</div>
         </div>
-        <div class="cart-items" id="cart-items">
-            <div class="cart-item">
-                <div class="cart-item-discription">
-                    <img src="media/Chicken_biryani.png" alt="">
-                    <div class="item-discriptions">
-                        <div class="cart-name">Chicken biryani</div>
-                        <div class="cart-price">$20.00</div>
-                    </div>
-                </div>
-                <div class="cart-quanty">
-                    <div class="increase">-</div>
-                    <div class="number">1</div>
-                    <div class="decrease">+</div>
-                </div>
-                <div class="remove-cart-item">
-                    <i class="fa-regular fa-circle-xmark"></i>
-                </div>
-            </div>
-        </div>
+        <div class="cart-items" id="cart-items"></div>
         <div class="cart-checkout">
             <div class="checkout-top">
                 <p>total</p>
                 <div class="cart-total-price" id="cart-total-price">$0.00</div>
             </div>
-            <div class="cart-checkout-btn">
-                Checkout Now!
-            </div>
+            <div class="cart-checkout-btn">Checkout Now!</div>
         </div>
     </div>
 
     <section class="hero-title">
-        <img src="media/bg-shop.jpg" alt="">
+        <img src="media/bg-shop.jpg" alt="Catering Menu" onerror="this.src='media/bg-1.jpg'">
         <div class="overlay"></div>
-        <h2>Our Products</h2>
+        <h2>Our Products & Menu</h2>
     </section>
 
     <section class="products">
@@ -80,11 +58,15 @@
                     <button class="active">all</button>
                     <button>pastries</button>
                     <button>meals</button>
-                    <!-- <button></button> -->
                 </div>
                 <div class="product-order-btns">
-                    <button class="active" onclick="(bodyOrder('grid-order'))">A</button>
-                    <button onclick="(bodyOrder('list-order'))">A</button>
+                    <!-- Functional search bar placed to the left of the view switch buttons -->
+                    <div class="product-search-box">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="productSearchInput" placeholder="Search menu..." onkeyup="filterProducts()">
+                    </div>
+                    <button class="active" onclick="bodyOrder('grid-order')"><i class="fa-solid fa-grip"></i> Grid</button>
+                    <button onclick="bodyOrder('list-order')"><i class="fa-solid fa-list"></i> List</button>
                 </div>
             </div>
 
@@ -97,26 +79,23 @@
             <div class="inner-footer">
                 <div class="col-1">
                     <div class="logo">Chestiray</div>
-                    <p>
-                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur corrupti illum, ex quam vero molestias magnam.
-                    </p>
-                    <div class="location">
-                        <p><i class="fa-solid fa-location"></i> 45 owerri land, mile 4 drive</p>
-                        <p><i class="fa-solid fa-mail"></i> chestiray@gmail.com</p>
+                    <p>Delivering exquisite culinary experiences for corporate gatherings, weddings, and private celebrations.</p>
+                    <div class="footer-info">
+                        <p><i class="fa-solid fa-location-dot"></i> 45 Owerri Road, Mile 4 Drive</p>
+                        <p><i class="fa-solid fa-envelope"></i> chestiray@gmail.com</p>
                     </div>
                 </div>
                 <div>
-                    <h3>quit links</h3>
+                    <h3>Quick Links</h3>
                     <ul>
-                        <a href="#">about us</a>
-                        <a href="#">services</a>
-                        <a href="#">menu</a>
-                        <a href="#">pricing</a>
-                        <a href="#">contact</a>
+                        <a href="aboutUs.html">about us</a>
+                        <a href="catering.html">catering</a>
+                        <a href="booking.html">booking</a>
+                        <a href="contact.html">contact</a>
                     </ul>
                 </div>
                 <div>
-                    <h3>useful links</h3>
+                    <h3>Useful Links</h3>
                     <ul>
                         <a href="#">privacy policy</a>
                         <a href="#">terms & conditions</a>
@@ -125,12 +104,12 @@
                 </div>
                 <div>
                     <h3>Newsletter</h3>
-                    <p>
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nam, itaque maxime?
-                    </p>
+                    <p>Subscribe to receive seasonal menu updates and catering offers.</p>
                     <div class="footer-input">
-                        <input type="text" placeholder="Your Email Address">
-                        <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+                        <form action="#" method="post">
+                            <input type="text" placeholder="Your Email Address">
+                            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -138,6 +117,5 @@
     </footer>
 
     <script src="index.js"></script>
-    <script src="https://kit.fontawesome.com/254301e431.js" crossorigin="anonymous"></script>
 </body>
 </html>

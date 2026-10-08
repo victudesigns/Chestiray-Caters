@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="media/Chestiray_W_icon.png" type="image/x-icon">
+    <title>Event Booking - Chestiray</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">Chestiray</a>
+        <div class="side-nav">
+            <nav>
+                <a href="index.html">home</a>
+                <a href="catering.html">catering</a>
+                <a href="booking.html">booking</a>
+                <a href="aboutUs.html">about us</a>
+                <a href="contact.html">contact</a>
+            </nav>
+            <div class="utility">
+                <button class="profile-btn"><i class="fa-solid fa-user"></i></button>
+                <button class="cart-btn">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span id="counter">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="cart-body">
+        <div class="cart-head">
+            <div class="cart-title">Your Cart</div>
+        </div>
+        <div class="cart-items"></div>
+        <div class="cart-checkout">
+            <div class="checkout-top">
+                <p>total</p>
+                <div class="cart-total-price">$0.00</div>
+            </div>
+            <div class="cart-checkout-btn">Checkout Now!</div>
+        </div>
+    </div>
+
+    <section class="hero-title">
+        <img src="media/bg-1.jpg" alt="Event Catering">
+        <div class="overlay"></div>
+        <h2>Become A Member</h2>
+    </section>
+
+    <section class="booking-section">
+        <div class="container">
+            <div class="booking-card">
+                <h2 class="form-title">Welcome Back</h2>
+                <p><p>
+
+
+                <div class="form-body">
+                    <form class="register-form" onsubmit="event.preventDefault(); alert('Registration successfully!');">
+                        <div class="input-box">
+                            <input type="text" id="fullName" required>
+                            <label for="fullName">Full Name</label>
+                        </div>
+
+                        <div class="input-box">
+                            <input type="email" id="email" required>
+                            <label for="email">Email Address</label>
+                        </div>
+
+                        <div class="input-box">
+                            <input type="tel" id="phone" required>
+                            <label for="phone">Phone Number</label>
+                        </div>
+
+                        <div class="input-box">
+                            <input type="password" id="password" required>
+                            <label>Type in Password</label>
+                        </div>
+
+                        <div class="input-box">
+                            <input type="password" id="confirm-password" required>
+                            <label>Confirm Password</label>
+                        </div>
+
+                        <p><input type="checkbox" name="" id=""> Get updates by email</p>
+                        <p>Already have an account <span class="slide-btn">Login</span></p>
+
+                        <button type="submit" class="btn-submit">Confirm Registration</button>
+                    </form>
+
+                    <form class="login-form" onsubmit="event.preventDefault(); alert('Login successfully!\nWelcome back (username)');">
+
+                        <div class="input-box">
+                            <input type="email" id="email" required>
+                            <label for="email">Email Address</label>
+                        </div>
+
+                        <div class="input-box">
+                            <input type="password" id="password" required>
+                            <label>Type in Password</label>
+                        </div>
+
+                        <p>Don't have an account <span class="slide-btn">Signin</span></p>
+
+                        <button type="submit" class="btn-submit">Confirm Registration</button>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="inner-footer">
+                <div class="col-1">
+                    <div class="logo">Chestiray</div>
+                    <p>Delivering exquisite culinary experiences for corporate gatherings, weddings, and private celebrations.</p>
+                    <div class="footer-info">
+                        <p><i class="fa-solid fa-location-dot"></i> 45 Owerri Road, Mile 4 Drive</p>
+                        <p><i class="fa-solid fa-envelope"></i> chestiray@gmail.com</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <a href="aboutUs.html">about us</a>
+                        <a href="catering.html">catering</a>
+                        <a href="booking.html">booking</a>
+                        <a href="contact.html">contact</a>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Useful Links</h3>
+                    <ul>
+                        <a href="#">privacy policy</a>
+                        <a href="#">terms & conditions</a>
+                        <a href="#">FAQ</a>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to receive seasonal menu updates and catering offers.</p>
+                    <div class="footer-input">
+                        <form action="#" method="post">
+                            <input type="text" placeholder="Your Email Address">
+                            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const slideBtn = document.querySelectorAll('.slide-btn');
+        
+        slideBtn.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                slideForm();
+            })
+        })
+
+        function slideForm() {
+            const formBody = document.querySelector('.form-body');
+            const registerTitle = document.querySelector('.form-title');
+            
+            if (formBody.classList.contains('active')) {
+                formBody.classList.remove('active');
+                registerTitle.textContent = 'Welcome Back';
+            } else if (!formBody.classList.contains('active')) {
+                formBody.classList.add('active');
+                registerTitle.textContent = 'Register For Membership';
+            }
+        }
+    </script>
+    <script src="index.js"></script>
+    <!-- <script src="https://kit.fontawesome.com/254301e431.js" crossorigin="anonymous"></script> -->
+</body>
+</html>
