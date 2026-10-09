@@ -9,11 +9,11 @@ window.addEventListener("scroll", function () {
 const navBtn = document.getElementById("nav-btn");
 const navBody = document.querySelector(".side-nav nav");
 
-console.log(navBody);
-
-navBtn.addEventListener("click", () => {
-  navBody.classList.toggle("show");
-});
+if (navBtn && navBody) {
+  navBtn.addEventListener("click", () => {
+    navBody.classList.toggle("show");
+  });
+}
 
 // Cart drawer toggle
 const cartBtn = document.querySelector(".cart-btn");
@@ -25,16 +25,80 @@ if (cartBtn && cartBody) {
   });
 }
 
-// Product catalog database
+// Close cart button (index page)
+const closeCartBtn = document.querySelector(".close-cart-btn");
+if (closeCartBtn && cartBody) {
+  closeCartBtn.addEventListener("click", () => {
+    cartBody.classList.remove("active");
+  });
+}
+
+/* ==========================================================================
+   AUTH / SESSION HELPERS
+   ========================================================================== */
+const USERS_KEY = "chestiray_users";
+const SESSION_KEY = "chestiray_user";
+const ORDERS_KEY = "chestiray_orders";
+const CHECKOUTS_KEY = "chestiray_checkouts";
+
+function getCurrentUser() {
+  try {
+    return JSON.parse(localStorage.getItem(SESSION_KEY)) || null;
+  } catch (e) {
+    return null;
+  }
+}
+
+/* ==========================================================================
+   PRODUCT CATALOGS (categorized)
+   ========================================================================== */
 const firstProducts = [
   {
     name: "crispy-fried-chicken",
-    category: "meals",
+    category: "mains",
     price: 14.0,
     discription:
       "Crispy fried chicken seasoned to perfection with house blend spices.",
     hot: true,
   },
+  {
+    name: "mexican-food-platter-with-tacos-grilled-chicken",
+    category: "mains",
+    price: 7.5,
+    discription: "Loaded Mexican platter featuring tacos and seasoned chicken.",
+    hot: true,
+  },
+  {
+    name: "savory-beef-broccoli-curry-with-steamed-rice",
+    category: "mains",
+    price: 14.4,
+    discription: "Tender beef slices and fresh broccoli in rich curry sauce.",
+    hot: true,
+  },
+  {
+    name: "spicy-shrimp-dish-black-bowl",
+    category: "mains",
+    price: 13.6,
+    discription: "Fiery sauteed shrimp cooked in savory herb sauce.",
+    hot: true,
+  },
+  {
+    name: "tuna-salad",
+    category: "salads-sides",
+    price: 9.0,
+    discription: "Fresh tuna salad tossed with greens and crisp vegetables.",
+    hot: true,
+  },
+  {
+    name: "vanilla-cupcake-with-creamy-white-frosting",
+    category: "pastries",
+    price: 4.5,
+    discription:
+      "Fluffy vanilla cupcake topped with rich buttercream frosting.",
+    hot: true,
+  },
+
+  // --- REGULAR ITEMS ---
   {
     name: "decadent-chocolate-cake-symphony-brown",
     category: "pastries",
@@ -56,35 +120,28 @@ const firstProducts = [
   },
   {
     name: "flavorful-jollof-rice-and-grilled-chicken",
-    category: "meals",
+    category: "rice-bowls",
     price: 15.0,
     discription:
       "Smoky West African Jollof rice served with juicy grilled chicken.",
   },
   {
     name: "healthy-vegetable-salad-plate",
-    category: "meals",
+    category: "salads-sides",
     price: 10.0,
     discription: "Fresh organic garden green salad served with house dressing.",
   },
   {
     name: "french-fries",
-    category: "meals",
+    category: "salads-sides",
     price: 5.0,
     discription: "Crispy golden potato fries served with dip.",
   },
   {
     name: "grilled-chicken-skewers-with-bell-peppers-onions-olives",
-    category: "meals",
+    category: "grills",
     price: 18.0,
     discription: "Tender chicken skewers grilled with fresh vegetables.",
-  },
-  {
-    name: "mexican-food-platter-with-tacos-grilled-chicken",
-    category: "meals",
-    price: 7.5,
-    discription: "Loaded Mexican platter featuring tacos and seasoned chicken.",
-    hot: true,
   },
   {
     name: "red-white-velvet-cupcake-frosting-swirl",
@@ -93,24 +150,10 @@ const firstProducts = [
     discription: "Classic red velvet cupcake topped with cream cheese swirl.",
   },
   {
-    name: "savory-beef-broccoli-curry-with-steamed-rice",
-    category: "meals",
-    price: 14.4,
-    discription: "Tender beef slices and fresh broccoli in rich curry sauce.",
-    hot: true,
-  },
-  {
     name: "spicy-grilled-chicken-skewers-with-roasted-bell-peppers",
-    category: "meals",
+    category: "grills",
     price: 17.5,
     discription: "Spicy char-grilled chicken skewers with sweet peppers.",
-  },
-  {
-    name: "spicy-shrimp-dish-black-bowl",
-    category: "meals",
-    price: 13.6,
-    discription: "Fiery sauteed shrimp cooked in savory herb sauce.",
-    hot: true,
   },
   {
     name: "tasty-wedding-fondant-cake",
@@ -119,25 +162,10 @@ const firstProducts = [
     discription: "Luxurious multi-layer fondant cake for special celebrations.",
   },
   {
-    name: "tuna-salad",
-    category: "meals",
-    price: 9.0,
-    discription: "Fresh tuna salad tossed with greens and crisp vegetables.",
-    hot: true,
-  },
-  {
     name: "chicken-biryani-rice-bowl",
-    category: "meals",
+    category: "rice-bowls",
     price: 16.0,
     discription: "Fragrant basmati rice cooked with spiced chicken and herbs.",
-  },
-  {
-    name: "vanilla-cupcake-with-creamy-white-frosting",
-    category: "pastries",
-    price: 4.5,
-    discription:
-      "Fluffy vanilla cupcake topped with rich buttercream frosting.",
-    hot: true,
   },
 ];
 
@@ -145,21 +173,21 @@ const firstProducts = [
 const products = [
   {
     name: "crispy-fried-chicken",
-    category: "meals",
+    category: "mains",
     price: 14.0,
     discription:
       "Crispy fried chicken seasoned to perfection with house blend spices.",
   },
   {
     name: "authentic-thai-basil-chicken-pad-krapow-gai-with-steamed-rice",
-    category: "meals",
+    category: "mains",
     price: 16.5,
     discription:
       "Authentic Thai basil chicken served hot with fragrant jasmine rice.",
   },
   {
     name: "chicken-fried-rice-plate",
-    category: "meals",
+    category: "rice-bowls",
     price: 14.0,
     discription:
       "Savor our freshly made chicken fried rice plate with spring onions.",
@@ -173,14 +201,14 @@ const products = [
   },
   {
     name: "creamy-chicken-fusilli-pasta-black-plate",
-    category: "meals",
+    category: "mains",
     price: 14.5,
     discription:
       "Fusilli pasta tossed in a velvety cream sauce with grilled chicken.",
   },
   {
     name: "crispy-golden-potato-pancakes-garnished-with-fresh-parsley",
-    category: "meals",
+    category: "salads-sides",
     price: 9.5,
     discription:
       "Golden potato pancakes topped with fresh parsley and sour cream.",
@@ -213,63 +241,63 @@ const products = [
   },
   {
     name: "flavorful-jollof-rice-and-grilled-chicken",
-    category: "meals",
+    category: "rice-bowls",
     price: 15.0,
     discription:
       "Smoky West African Jollof rice served with juicy grilled chicken.",
   },
   {
     name: "healthy-vegetable-salad-plate",
-    category: "meals",
+    category: "salads-sides",
     price: 10.0,
     discription: "Fresh organic garden green salad served with house dressing.",
   },
   {
     name: "french-fries",
-    category: "meals",
+    category: "salads-sides",
     price: 5.0,
     discription: "Crispy golden potato fries served with dip.",
   },
   {
     name: "grilled-chicken-skewers-with-bell-peppers-onions-olives",
-    category: "meals",
+    category: "grills",
     price: 18.0,
     discription: "Tender chicken skewers grilled with fresh vegetables.",
   },
   {
     name: "healthy-lifestyle-chicken-rice",
-    category: "meals",
+    category: "rice-bowls",
     price: 21.3,
     discription:
       "Clean protein meal with seasoned chicken breast and brown rice.",
   },
   {
     name: "indian-cauliflower-potato-curry",
-    category: "meals",
+    category: "mains",
     price: 12.0,
     discription: "Aromatic Indian Aloo Gobi curry cooked with aromatic spices.",
   },
   {
     name: "jollof-rice",
-    category: "meals",
+    category: "rice-bowls",
     price: 13.0,
     discription: "Classic signature party Jollof rice dish.",
   },
   {
     name: "mexican-food-platter-with-tacos-grilled-chicken",
-    category: "meals",
+    category: "mains",
     price: 7.5,
     discription: "Loaded Mexican platter featuring tacos and seasoned chicken.",
   },
   {
     name: "special-jollof-rice-platter",
-    category: "meals",
+    category: "rice-bowls",
     price: 15.0,
     discription: "Chef's special Jollof rice loaded with assorted toppings.",
   },
   {
     name: "plate-food-with-vegetables-cheese",
-    category: "meals",
+    category: "salads-sides",
     price: 10.7,
     discription:
       "Healthy combination plate with roasted vegetables and cheese.",
@@ -282,25 +310,25 @@ const products = [
   },
   {
     name: "savory-beef-broccoli-curry-with-steamed-rice",
-    category: "meals",
+    category: "mains",
     price: 14.4,
     discription: "Tender beef slices and fresh broccoli in rich curry sauce.",
   },
   {
     name: "spicy-grilled-chicken-skewers-with-roasted-bell-peppers",
-    category: "meals",
+    category: "grills",
     price: 17.5,
     discription: "Spicy char-grilled chicken skewers with sweet peppers.",
   },
   {
     name: "spicy-shrimp-dish-black-bowl",
-    category: "meals",
+    category: "mains",
     price: 13.6,
     discription: "Fiery sauteed shrimp cooked in savory herb sauce.",
   },
   {
     name: "spicy-stir-fried-tofu-with-colorful-mixed-vegetables",
-    category: "meals",
+    category: "mains",
     price: 11.0,
     discription: "Vegan-friendly stir-fried tofu tossed with seasonal veggies.",
   },
@@ -312,19 +340,19 @@ const products = [
   },
   {
     name: "traditional-indian-south-asian-food-platter",
-    category: "meals",
+    category: "mains",
     price: 15.0,
     discription: "Authentic South Asian thali platter with variety of flavors.",
   },
   {
     name: "tuna-salad",
-    category: "meals",
+    category: "salads-sides",
     price: 9.0,
     discription: "Fresh tuna salad tossed with greens and crisp vegetables.",
   },
   {
     name: "chicken-biryani-rice-bowl",
-    category: "meals",
+    category: "rice-bowls",
     price: 16.0,
     discription: "Fragrant basmati rice cooked with spiced chicken and herbs.",
   },
@@ -341,10 +369,9 @@ const products = [
    CART SYSTEM LOGIC AND STATE MANAGEMENT
    ========================================================================== */
 
-// STEP 1: Retrieve existing cart from localStorage or initialize empty array
 let cart = JSON.parse(localStorage.getItem("chestiray_cart")) || [];
 
-// STEP 2: Render products into shop container if on the catering/shop page
+// Render products into shop containers
 const main_root = document.getElementById("root");
 const first_root = document.getElementById("first-root");
 
@@ -353,21 +380,19 @@ if (first_root) {
     const card = document.createElement("div");
     card.classList.add("product-item", `${item.category}`);
 
-    if(item.hot == true) {
-      card.classList.remove('hidden')
-      card.classList.add('hot-menu')
+    if (item.hot == true) {
+      card.classList.remove("hidden");
+      card.classList.add("hot-menu");
     } else {
-      card.classList.add('hidden')
+      card.classList.add("hidden");
     }
 
-    // Format display name
     let formattedName = item.name.replace(/-/g, " ");
     let displayName =
       formattedName.length > 18
         ? formattedName.slice(0, 18) + "..."
         : formattedName;
 
-    // STEP 3: Pass product index to `addToCart(index)` method
     card.innerHTML = `
         <div class="img">
             <img src="media/product/${item.name}.png" class="product-img" alt="${item.name}" onerror="this.src='media/Chicken_biryani.png'">
@@ -377,7 +402,7 @@ if (first_root) {
             <p>${item.discription}</p>
             <div class="product-price">$${item.price.toFixed(2)}</div>
         </div>
-        <button class="add-to-cart click" onclick="addToCart(${index})">
+        <button class="add-to-cart click" onclick="addtocart(${index})">
           <i class="fas fa-shopping-bag"></i> add to cart
         </button>
       `;
@@ -391,14 +416,12 @@ if (main_root) {
     const card = document.createElement("div");
     card.classList.add("product-item", `${item.category}`);
 
-    // Format display name
     let formattedName = item.name.replace(/-/g, " ");
     let displayName =
       formattedName.length > 18
         ? formattedName.slice(0, 18) + "..."
         : formattedName;
 
-    // STEP 3: Pass product index to `addToCart(index)` method
     card.innerHTML = `
         <div class="img">
             <img src="media/product/${item.name}.png" class="product-img" alt="${item.name}" onerror="this.src='media/Chicken_biryani.png'">
@@ -417,44 +440,47 @@ if (main_root) {
   });
 }
 
-// STEP 4: Add item to cart function
-function addToCart(index) {
-  // Find selected item from products array using index
-  const selectedProduct = products[index];
-
-  // Check if item is already in cart array
+function addtocart(index) {
+  const selectedProduct = firstProducts[index];
   const existingItemIndex = cart.findIndex(
     (item) => item.name === selectedProduct.name,
   );
 
   if (existingItemIndex > -1) {
-    // If present, increment quantity
     cart[existingItemIndex].quantity += 1;
   } else {
-    // If not present, add new item object with quantity 1
     cart.push({
       name: selectedProduct.name,
       price: selectedProduct.price,
       quantity: 1,
     });
   }
-
-  // Save updated cart array to localStorage and refresh DOM view
   saveAndUpdateCart();
-
-  // Open cart sidebar so user sees added product
-  if (cartBody) {
-    cartBody.classList.add("active");
-  }
 }
 
-// STEP 5: Save cart state to LocalStorage and trigger UI rendering
+function addToCart(index) {
+  const selectedProduct = products[index];
+  const existingItemIndex = cart.findIndex(
+    (item) => item.name === selectedProduct.name,
+  );
+
+  if (existingItemIndex > -1) {
+    cart[existingItemIndex].quantity += 1;
+  } else {
+    cart.push({
+      name: selectedProduct.name,
+      price: selectedProduct.price,
+      quantity: 1,
+    });
+  }
+  saveAndUpdateCart();
+}
+
 function saveAndUpdateCart() {
   localStorage.setItem("chestiray_cart", JSON.stringify(cart));
   renderCart();
 }
 
-// STEP 6: Render active cart items and calculate pricing total
 function renderCart() {
   const cartContainer = document.querySelectorAll(".cart-items");
   const totalElements = document.querySelectorAll(
@@ -465,7 +491,6 @@ function renderCart() {
   let totalCost = 0;
   let totalItemsCount = 0;
 
-  // Render HTML markup for cart drawer items across pages
   cartContainer.forEach((container) => {
     container.innerHTML = "";
 
@@ -477,7 +502,8 @@ function renderCart() {
         totalItemsCount += item.quantity;
 
         let formattedName = item.name.replace(/-/g, " ");
-        let displayName = formattedName.length > 8
+        let displayName =
+          formattedName.length > 8
             ? formattedName.slice(0, 8) + "..."
             : formattedName;
 
@@ -506,38 +532,54 @@ function renderCart() {
     }
   });
 
-  // Calculate totals if cart has items
   if (cart.length > 0) {
     totalCost = cart.reduce((acc, curr) => acc + curr.price * curr.quantity, 0);
     totalItemsCount = cart.reduce((acc, curr) => acc + curr.quantity, 0);
   }
 
-  // Update counter badges
   counterElements.forEach((el) => {
     el.textContent = totalItemsCount;
   });
 
-  // Update total price displays
   totalElements.forEach((el) => {
     el.textContent = `$${totalCost.toFixed(2)}`;
   });
 }
 
-// STEP 7: Change quantity (+ / -) handler
 function updateQuantity(index, change) {
   if (cart[index]) {
     cart[index].quantity += change;
     if (cart[index].quantity <= 0) {
-      cart.splice(index, 1); // Remove item if quantity drops to 0 or below
+      cart.splice(index, 1);
     }
   }
   saveAndUpdateCart();
 }
 
-// STEP 8: Remove item completely from cart
 function removeFromCart(index) {
   cart.splice(index, 1);
   saveAndUpdateCart();
+}
+
+/* ==========================================================================
+   CHECKOUT BUTTON — AUTH GUARD
+   not signed in  -> register.html
+   cart == []     -> return
+   otherwise      -> checkout.html
+   ========================================================================== */
+const checkOut = document.querySelector(".cart-checkout-btn");
+
+if (checkOut) {
+  checkOut.addEventListener("click", () => {
+    if (!cart || cart.length === 0) return; // empty cart -> do nothing
+
+    const user = getCurrentUser();
+    if (!user) {
+      window.location.href = "register.html";
+      return;
+    }
+    window.location.href = "checkout.html";
+  });
 }
 
 // Initial cart render on page load
@@ -546,12 +588,23 @@ document.addEventListener("DOMContentLoaded", renderCart);
 /* ==========================================================================
    CATEGORY & DISPLAY LAYOUT FILTERING
    ========================================================================== */
+function normalizeCategory(value) {
+  return value
+    .toLowerCase()
+    .replace(/&/g, "")
+    .replace(/[^a-z\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
+}
 
 const menuBtns = document.querySelectorAll(".menu-list li");
 
 menuBtns.forEach((btn) => {
+  if (btn.classList.contains("viewmore")) return; // let the link navigate
+
   btn.addEventListener("click", () => {
     const btnValue = btn.textContent.trim().toLowerCase();
+    const cat = normalizeCategory(btnValue);
     const cards = document.querySelectorAll(".product-item");
 
     menuBtns.forEach((b) => b.classList.remove("active"));
@@ -559,13 +612,9 @@ menuBtns.forEach((btn) => {
 
     cards.forEach((item) => {
       if (btnValue === "hot list") {
-        if (item.classList.contains("hot-menu")) {
-          item.classList.remove("hidden");
-        }
-      } else if (item.classList.contains(btnValue)) {
-        item.classList.remove("hidden");
+        item.classList.toggle("hidden", !item.classList.contains("hot-menu"));
       } else {
-        item.classList.add("hidden");
+        item.classList.toggle("hidden", !item.classList.contains(cat));
       }
     });
   });
@@ -576,13 +625,14 @@ const productBtns = document.querySelectorAll(".product-btns button");
 productBtns.forEach((btn) => {
   btn.addEventListener("click", () => {
     const btnValue = btn.textContent.trim().toLowerCase();
+    const cat = normalizeCategory(btnValue);
     const cards = document.querySelectorAll(".product-item");
 
     productBtns.forEach((b) => b.classList.remove("active"));
     btn.classList.add("active");
 
     cards.forEach((item) => {
-      if (btnValue === "all" || item.classList.contains(btnValue)) {
+      if (btnValue === "all" || item.classList.contains(cat)) {
         item.classList.remove("hidden");
       } else {
         item.classList.add("hidden");
@@ -630,19 +680,17 @@ function updateBookingPrice() {
   }
 }
 
-// Video Modal Functionality
+/* ==========================================================================
+   VIDEO MODAL
+   ========================================================================== */
 const openVideoBtn = document.getElementById("openVideoBtn");
 const closeVideoBtn = document.getElementById("closeVideoBtn");
 const closeVideoOverlay = document.getElementById("closeVideoOverlay");
 const videoModal = document.getElementById("videoModal");
 const promoVideo = document.getElementById("promoVideo");
 
-// Replace with your desired video URL (e.g., YouTube embed with autoplay)
-// const videoURL = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1";
-
 if (openVideoBtn && videoModal) {
   openVideoBtn.addEventListener("click", () => {
-    // promoVideo.src = videoURL;
     videoModal.classList.add("active");
   });
 
@@ -655,7 +703,9 @@ if (openVideoBtn && videoModal) {
   closeVideoOverlay.addEventListener("click", closeModal);
 }
 
-// Product Search Filter for Catering Page
+/* ==========================================================================
+   PRODUCT SEARCH FILTER
+   ========================================================================== */
 function filterProducts() {
   const input = document.getElementById("productSearchInput");
   if (!input) return;
@@ -674,4 +724,210 @@ function filterProducts() {
       }
     }
   });
+}
+
+/* ==========================================================================
+   PROFILE DROPDOWN CARD (shown when a signed-in user clicks the profile btn)
+   ========================================================================== */
+function getUserOrdersCount(name) {
+  const orders = JSON.parse(localStorage.getItem(ORDERS_KEY)) || [];
+  return orders.filter((o) => o.username === name).length;
+}
+
+function buildProfileCard(user) {
+  const old = document.querySelector(".profile-card-dropdown");
+  if (old) old.remove();
+
+  const initial = (user.name || "U").trim().charAt(0).toUpperCase();
+  const ordersCount = getUserOrdersCount(user.name);
+
+  const card = document.createElement("div");
+  card.className = "profile-card-dropdown";
+  card.innerHTML = `
+    <div class="pc-cover">
+      <img src="media/about-bg.jpg" alt="" onerror="this.remove()">
+      <span>image here</span>
+    </div>
+    <div class="pc-avatar">
+      <span class="pc-initial">${initial}</span>
+      <img src="media/profile-user.png" alt="" onerror="this.remove()">
+    </div>
+    <div class="pc-name">${user.name}</div>
+    <div class="pc-email">${user.email}</div>
+    <ul class="pc-menu">
+      <li><a href="index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+      <li><a href="checkout.html"><i class="fa-solid fa-receipt"></i> Orders <span class="pc-badge">${ordersCount}</span></a></li>
+      <li><a href="register.html"><i class="fa-solid fa-user"></i> Profile</a></li>
+      <li><a href="catering.html"><i class="fa-solid fa-utensils"></i> Browse</a></li>
+      <li><a href="index.html#menu"><i class="fa-solid fa-bookmark"></i> Saved</a></li>
+      <li><a href="contact.html"><i class="fa-solid fa-gear"></i> Settings</a></li>
+      <li class="pc-logout"><button type="button" id="pcLogoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button></li>
+    </ul>
+  `;
+  document.body.appendChild(card);
+
+  document.getElementById("pcLogoutBtn").addEventListener("click", () => {
+    localStorage.removeItem(SESSION_KEY);
+    window.location.href = "index.html";
+  });
+}
+
+// Toggle card on profile button click
+document.querySelectorAll(".profile-btn").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    const user = getCurrentUser();
+
+    if (!user) {
+      // not signed in -> let the anchor go to register.html,
+      // plain button (no anchor) goes there manually
+      if (!btn.closest("a[href]")) {
+        window.location.href = "register.html";
+      }
+      return;
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const existing = document.querySelector(".profile-card-dropdown");
+    if (existing) {
+      existing.remove();
+      return;
+    }
+    buildProfileCard(user);
+  });
+});
+
+// Close the card when clicking anywhere outside it
+document.addEventListener("click", (e) => {
+  const card = document.querySelector(".profile-card-dropdown");
+  if (card && !card.contains(e.target) && !e.target.closest(".profile-btn")) {
+    card.remove();
+  }
+});
+
+/* ==========================================================================
+   CHECKOUT PAGE — SUMMARY, TRACKING & ORDER PLACEMENT
+   ========================================================================== */
+const checkoutItemsEl = document.getElementById("checkoutItems");
+
+if (checkoutItemsEl) {
+  const orderForm = document.getElementById("orderForm");
+  const user = getCurrentUser();
+
+  if (!user) {
+    // must be signed in to checkout
+    window.location.href = "register.html";
+  } else if (cart.length === 0) {
+    updateTracker(1);
+    checkoutItemsEl.innerHTML = `<div style="padding:30px 10px;text-align:center;color:#888;">Your cart is empty. <a href="catering.html" style="color:var(--secondary);">Browse the menu</a> to add items first.</div>`;
+    const formCard = orderForm ? orderForm.closest(".checkout-card") : null;
+    if (formCard) formCard.style.display = "none";
+  } else {
+    renderCheckoutSummary();
+    updateTracker(2);
+
+    // prefill from the signed-in user
+    const nameInput = document.getElementById("orderName");
+    const phoneInput = document.getElementById("orderPhone");
+    if (nameInput) nameInput.value = user.name || "";
+    if (phoneInput && user.phone) phoneInput.value = user.phone;
+
+    if (orderForm) orderForm.addEventListener("submit", placeOrder);
+  }
+}
+
+function renderCheckoutSummary() {
+  if (!checkoutItemsEl) return;
+  checkoutItemsEl.innerHTML = "";
+
+  cart.forEach((item) => {
+    const row = document.createElement("div");
+    row.className = "checkout-item";
+    const displayName = item.name.replace(/-/g, " ");
+    row.innerHTML = `
+      <img src="media/product/${item.name}.png" alt="${item.name}" onerror="this.src='media/Chicken_biryani.png'">
+      <div class="ci-name">${displayName}</div>
+      <div class="ci-qty">x${item.quantity}</div>
+      <div class="ci-price">$${(item.price * item.quantity).toFixed(2)}</div>
+    `;
+    checkoutItemsEl.appendChild(row);
+  });
+
+  const total = cart.reduce((acc, curr) => acc + curr.price * curr.quantity, 0);
+  const totalEl = document.getElementById("checkoutTotal");
+  if (totalEl) totalEl.textContent = `$${total.toFixed(2)}`;
+}
+
+function updateTracker(current) {
+  document.querySelectorAll(".tracker-step").forEach((step) => {
+    const n = parseInt(step.dataset.step, 10);
+    const icon = step.querySelector(".step-icon i");
+    step.classList.remove("active", "done");
+
+    if (n < current) {
+      step.classList.add("done");
+      if (icon) icon.className = "fa-solid fa-check";
+    } else if (n === current) {
+      step.classList.add("active");
+    }
+  });
+}
+
+function placeOrder(e) {
+  e.preventDefault();
+
+  const user = getCurrentUser();
+  const locationInput = document.getElementById("orderLocation");
+  const location = locationInput ? locationInput.value.trim() : "";
+
+  if (!location) {
+    alert("Please enter your delivery location.");
+    return;
+  }
+  if (!user || !cart.length) return;
+
+  const total = cart.reduce((acc, curr) => acc + curr.price * curr.quantity, 0);
+
+  // Build the order object for the business
+  const order = {
+    id: Date.now(),
+    username: user.name,
+    email: user.email,
+    items: cart.map((i) => ({ itemname: i.name, quantity: i.quantity })),
+    location: location,
+    total: parseFloat(total.toFixed(2)),
+    date: new Date().toISOString(),
+    status: "pending",
+  };
+
+  // Save to the business orders store
+  const orders = JSON.parse(localStorage.getItem(ORDERS_KEY)) || [];
+  orders.push(order);
+  localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+
+  // Record the checkout for today's checkout tracking
+  const checkouts = JSON.parse(localStorage.getItem(CHECKOUTS_KEY)) || [];
+  checkouts.push({
+    username: user.name,
+    itemsCount: cart.reduce((acc, curr) => acc + curr.quantity, 0),
+    total: parseFloat(total.toFixed(2)),
+    date: new Date().toISOString(),
+  });
+  localStorage.setItem(CHECKOUTS_KEY, JSON.stringify(checkouts));
+
+  // Clear the cart
+  cart = [];
+  saveAndUpdateCart();
+
+  // Update tracking interface -> "preparing"
+  updateTracker(4);
+
+  // Swap checkout body for the success panel
+  const grid = document.getElementById("checkoutGrid");
+  if (grid) grid.classList.add("hidden");
+  const success = document.getElementById("orderSuccess");
+  if (success) success.classList.remove("hidden");
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }

@@ -7,167 +7,13 @@
     <title>About Us - Chestiray</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        /* ====== EXTRA STYLES FOR ABOUT PAGE (matches style.css palette) ====== */
-
-        /* About hero — text + circular dish photo */
-        .about-hero {
-            padding: 80px 0;
-            background-color: var(--asset);
-        }
-        .inner-about-hero {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 4em;
-        }
-        .about-hero-content {
-            max-width: 460px;
-        }
-        
-        .about-hero-content h1 {
-            font-size: 2.4em;
-            font-weight: 600;
-            line-height: 1.15;
-            color: var(--primary);
-            margin-bottom: 20px;
-        }
-        .about-hero-content h1 em {
-            font-style: italic;
-            color: var(--secondary);
-        }
-        .about-hero-content p {
-            font-size: 14px;
-            line-height: 1.8;
-            color: var(--fade);
-            margin-bottom: 28px;
-        }
-        .about-hero-photo {
-            position: relative;
-            width: 380px;
-            height: 380px;
-            flex-shrink: 0;
-        }
-        .about-hero-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-            box-shadow: 0 30px 60px -25px rgba(67, 117, 2, 0.4);
-        }
-        .about-hero-photo::after {
-            content: "";
-            position: absolute;
-            inset: -16px;
-            border: 2px dashed var(--secondary);
-            border-radius: 50%;
-            animation: rotate 40s linear infinite;
-            pointer-events: none;
-        }
-
-        /* Quality charter — image + checklist (reuses delicacy pattern) */
-        .charter-list li i {
-            color: var(--secondary);
-            margin-right: 8px;
-        }
-
-        /* Location / map section */
-        .location-section {
-            padding: 70px 0;
-            background-color: var(--tertiary);
-        }
-        .location-head {
-            text-align: center;
-            max-width: 560px;
-            margin: 0 auto 40px;
-        }
-        .location-head h2 {
-            font-size: 30px;
-            font-weight: 600;
-            text-transform: capitalize;
-            color: var(--primary);
-            margin-bottom: 12px;
-        }
-        .location-head p {
-            font-size: 13px;
-            color: var(--fade);
-        }
-        .location-flex {
-            display: grid;
-            grid-template-columns: 1.6fr 1fr;
-            gap: 1.5em;
-            align-items: stretch;
-        }
-        .location-map {
-            height: 420px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-        }
-        .location-map iframe {
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
-        .location-info {
-            background: var(--white);
-            padding: 34px 30px;
-            border-radius: 8px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 18px;
-        }
-        .location-info h3 {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 4px;
-        }
-        .location-item {
-            display: flex;
-            gap: 14px;
-            align-items: flex-start;
-            font-size: 13px;
-            color: #444;
-        }
-        .location-item i {
-            width: 38px;
-            height: 38px;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: var(--tertiary);
-            color: var(--primary);
-            font-size: 15px;
-        }
-        .location-item b {
-            display: block;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 11px;
-            color: var(--secondary);
-            margin-bottom: 2px;
-        }
-        .location-item a { color: var(--primary); text-decoration: none; }
-        .location-item a:hover { color: var(--secondary); }
-
-        @media (max-width: 768px) {
-            .inner-about-hero { flex-direction: column; text-align: center; }
-            .about-hero-content .eyebrow { justify-content: center; }
-            .about-hero-content p { margin-left: auto; margin-right: auto; }
-            .about-hero-photo { width: 300px; height: 300px; }
-            .location-flex { grid-template-columns: 1fr; }
-            .location-map { height: 320px; }
-        }
-    </style>
+<base target="_blank">
 </head>
 <body>
     <header>
-        <a href="index.html" class="logo">Chestiray</a>
+        <a href="#" class="logo">
+            <img src="media/Chestiray_V_W_logo.png" alt="">
+        </a>
         <div class="side-nav">
             <nav>
                 <a href="index.html">home</a>
@@ -198,7 +44,7 @@
         <div class="cart-items"></div>
         <div class="cart-checkout">
             <div class="checkout-top">
-                <p>total</p>
+                <p>total:</p>
                 <div class="cart-total-price">$0.00</div>
             </div>
             <div class="cart-checkout-btn">Checkout Now!</div>

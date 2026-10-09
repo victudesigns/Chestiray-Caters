@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="media/Chestiray_W_icon.png" type="image/x-icon">
+    <title>Checkout - Chestiray</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+<!-- <base target="_blank"> -->
+</head>
+<body>
+    <header>
+        <a href="#" class="logo">
+            <img src="media/Chestiray_V_W_logo.png" alt="">
+        </a>
+        <div class="side-nav">
+            <nav>
+                <a href="index.html">home</a>
+                <a href="catering.html">catering</a>
+                <a href="booking.html">booking</a>
+                <a href="aboutUs.html">about us</a>
+                <a href="contact.html">contact</a>
+            </nav>
+            <div class="utility">
+                <button id="nav-btn">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <a href="register.html">
+                    <button class="profile-btn"><i class="fa-solid fa-user"></i></button>
+                </a>
+                <button class="cart-btn">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span id="counter">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="cart-body">
+        <div class="cart-head">
+            <div class="cart-title">Your Cart</div>
+            <i class="fa-solid fa-xmark close-cart-btn"></i>
+        </div>
+        <div class="cart-items"></div>
+        <div class="cart-checkout">
+            <div class="checkout-top">
+                <p>total:</p>
+                <div class="cart-total-price">$0.00</div>
+            </div>
+            <div class="cart-checkout-btn">Checkout Now!</div>
+        </div>
+    </div>
+
+    <section class="hero-title">
+        <img src="media/bg-shop.jpg" alt="Checkout" onerror="this.src='media/bg-1.jpg'">
+        <div class="overlay"></div>
+        <h2>Checkout</h2>
+    </section>
+
+    <section class="checkout-section">
+        <div class="container">
+
+            <!-- ORDER TRACKING INTERFACE -->
+            <div class="order-tracker">
+                <div class="tracker-step" data-step="1">
+                    <div class="step-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                    <span class="step-label">review order</span>
+                </div>
+                <div class="tracker-line"></div>
+                <div class="tracker-step" data-step="2">
+                    <div class="step-icon"><i class="fa-solid fa-truck-fast"></i></div>
+                    <span class="step-label">delivery details</span>
+                </div>
+                <div class="tracker-line"></div>
+                <div class="tracker-step" data-step="3">
+                    <div class="step-icon"><i class="fa-solid fa-receipt"></i></div>
+                    <span class="step-label">order placed</span>
+                </div>
+                <div class="tracker-line"></div>
+                <div class="tracker-step" data-step="4">
+                    <div class="step-icon"><i class="fa-solid fa-utensils"></i></div>
+                    <span class="step-label">preparing</span>
+                </div>
+            </div>
+
+            <!-- MAIN CHECKOUT BODY -->
+            <div class="checkout-grid" id="checkoutGrid">
+                <div class="checkout-card">
+                    <h3>Your Order</h3>
+                    <div class="checkout-items" id="checkoutItems"></div>
+                    <div class="checkout-total-row">
+                        <p>total</p>
+                        <span id="checkoutTotal">$0.00</span>
+                    </div>
+                </div>
+                <div class="checkout-card">
+                    <h3>Delivery Details</h3>
+                    <form id="orderForm">
+                        <div class="form-group">
+                            <label for="orderName">Full Name</label>
+                            <input type="text" id="orderName" placeholder="Your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="orderPhone">Phone Number</label>
+                            <input type="tel" id="orderPhone" placeholder="Your phone number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="orderLocation">Delivery Location</label>
+                            <input type="text" id="orderLocation" placeholder="Street, area, city..." required>
+                        </div>
+                        <button type="submit" class="btn-submit" id="placeOrderBtn">Place Order</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- SUCCESS PANEL (shown after ordering) -->
+            <div class="order-success hidden" id="orderSuccess">
+                <i class="fa-solid fa-circle-check"></i>
+                <h3>Order Placed Successfully!</h3>
+                <p>Thank you! Your order has been sent to our kitchen and is now being prepared. Follow its progress on the tracker above.</p>
+                <a href="index.html" class="btn-primary click">Back to Home</a>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="inner-footer">
+                <div class="col-1">
+                    <div class="logo">Chestiray</div>
+                    <p>Delivering exquisite culinary experiences for corporate gatherings, weddings, and private celebrations.</p>
+                    <div class="footer-info">
+                        <p><i class="fa-solid fa-location-dot"></i> 45 Owerri Road, Mile 4 Drive</p>
+                        <p><i class="fa-solid fa-envelope"></i> chestiray@gmail.com</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <a href="aboutUs.html">about us</a>
+                        <a href="catering.html">catering</a>
+                        <a href="booking.html">booking</a>
+                        <a href="contact.html">contact</a>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Useful Links</h3>
+                    <ul>
+                        <a href="#">privacy policy</a>
+                        <a href="#">terms & conditions</a>
+                        <a href="#">FAQ</a>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to receive seasonal menu updates and catering offers.</p>
+                    <div class="footer-input">
+                        <form action="#" method="post">
+                            <input type="text" placeholder="Your Email Address">
+                            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="index.js"></script>
+</body>
+</html>

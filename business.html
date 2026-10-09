@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="media/Chestiray_W_icon.png" type="image/x-icon">
+    <title>Business Dashboard - Chestiray</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+<base target="_blank">
+</head>
+<body class="dashboard-body">
+
+    <aside class="dash-aside">
+        <div class="dash-logo">
+            <img src="media/Chestiray_V_W_logo.png" alt="">
+        </div>
+        <nav class="dash-nav">
+            <button class="dash-nav-btn active" data-view="orders">
+                <i class="fa-solid fa-receipt"></i> Orders <span class="dash-badge" id="ordersBadge">0</span>
+            </button>
+            <button class="dash-nav-btn" data-view="checkouts">
+                <i class="fa-solid fa-cash-register"></i> Checkouts
+            </button>
+            <button class="dash-nav-btn" data-view="profile">
+                <i class="fa-solid fa-user"></i> Profile
+            </button>
+        </nav>
+        <a href="index.html" class="dash-back"><i class="fa-solid fa-arrow-left"></i> Back to website</a>
+    </aside>
+
+    <main class="dash-main">
+
+        <!-- ORDERS VIEW -->
+        <section class="dash-view" id="view-orders">
+            <div class="dash-header">
+                <h1>Customer Orders</h1>
+                <p>View incoming orders, confirm them and update their status as you prepare and deliver.</p>
+            </div>
+            <div class="dash-stats">
+                <div class="dash-stat-card">
+                    <i class="fa-solid fa-receipt"></i>
+                    <div><b id="statTodayOrders">0</b><span>orders today</span></div>
+                </div>
+                <div class="dash-stat-card">
+                    <i class="fa-solid fa-hourglass-half"></i>
+                    <div><b id="statPending">0</b><span>pending orders</span></div>
+                </div>
+                <div class="dash-stat-card">
+                    <i class="fa-solid fa-sack-dollar"></i>
+                    <div><b id="statRevenue">$0.00</b><span>revenue today</span></div>
+                </div>
+            </div>
+            <div id="ordersList"></div>
+        </section>
+
+        <!-- CHECKOUTS VIEW -->
+        <section class="dash-view hidden" id="view-checkouts">
+            <div class="dash-header">
+                <h1>Today's Checkouts</h1>
+                <p>A running log of every checkout completed today, with amounts collected.</p>
+            </div>
+            <div class="dash-stats">
+                <div class="dash-stat-card">
+                    <i class="fa-solid fa-cash-register"></i>
+                    <div><b id="statCheckouts">0</b><span>checkouts today</span></div>
+                </div>
+                <div class="dash-stat-card">
+                    <i class="fa-solid fa-sack-dollar"></i>
+                    <div><b id="statCheckoutRevenue">$0.00</b><span>collected today</span></div>
+                </div>
+            </div>
+            <div class="dash-table" id="checkoutsTable"></div>
+        </section>
+
+        <!-- PROFILE VIEW -->
+        <section class="dash-view hidden" id="view-profile">
+            <div class="dash-header">
+                <h1>My Profile</h1>
+                <p>Your staff account details.</p>
+            </div>
+            <div class="dash-profile-card">
+                <div class="dash-profile-cover">
+                    <img src="media/about-bg.jpg" alt="" onerror="this.remove()">
+                </div>
+                <div class="dash-profile-avatar"><span id="dashInitial">C</span></div>
+                <div class="dash-profile-body">
+                    <h3 id="dashName">&mdash;</h3>
+                    <p id="dashEmail">&mdash;</p>
+                    <span class="dash-role" id="dashRole">&mdash;</span>
+                    <div>
+                        <button class="btn-submit dash-logout click" id="dashLogout">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        /* ---- Staff guard: only signed-in workers/owners ---- */
+        const session = JSON.parse(localStorage.getItem('chestiray_user'));
+        if (!session || !session.role) {
+            window.location.href = 'register.html';
+        }
+
+        let allOrders = JSON.parse(localStorage.getItem('chestiray_orders')) || [];
+        let allCheckouts = JSON.parse(localStorage.getItem('chestiray_checkouts')) || [];
+
+        const saveOrders = () => localStorage.setItem('chestiray_orders', JSON.stringify(allOrders));
+        const saveCheckouts = () => localStorage.setItem('chestiray_checkouts', JSON.stringify(allCheckouts));
+
+        /* ---- Aside navigation ---- */
+        const navBtns = document.querySelectorAll('.dash-nav-btn');
+        navBtns.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                navBtns.forEach((b) => b.classList.remove('active'));
+                btn.classList.add('active');
+                document.querySelectorAll('.dash-view').forEach((v) => v.classList.add('hidden'));
+                document.getElementById('view-' + btn.dataset.view).classList.remove('hidden');
+            });
+        });
+
+        function renderBadge() {
+            const pending = allOrders.filter((o) => o.status === 'pending').length;
+            const badge = document.getElementById('ordersBadge');
+            badge.textContent = pending;
+            badge.style.display = pending ? 'flex' : 'none';
+        }
+
+        function renderStats() {
+            const today = new Date().toDateString();
+            const todayOrders = allOrders.filter((o) => new Date(o.date).toDateString() === today);
+            document.getElementById('statTodayOrders').textContent = todayOrders.length;
+            document.getElementById('statPending').textContent =
+                allOrders.filter((o) => o.status === 'pending').length;
+            document.getElementById('statRevenue').textContent =
+                '$' + todayOrders.reduce((a, o) => a + o.total, 0).toFixed(2);
+        }
+
+        function renderOrders() {
+            const wrap = document.getElementById('ordersList');
+            renderStats();
+            renderBadge();
+
+            if (!allOrders.length) {
+                wrap.innerHTML = '<div class="dash-empty"><i class="fa-solid fa-inbox"></i><p>No customer orders yet.</p></div>';
+                return;
+            }
+
+            wrap.innerHTML = '';
+            allOrders.map((o, i) => ({ o: o, i: i })).reverse().forEach(({ o, i }) => {
+                const items = o.items
+                    .map((it) => '<li><span>' + it.itemname.replace(/-/g, ' ') + '</span><span>&times; ' + it.quantity + '</span></li>')
+                    .join('');
+
+                const actions = [];
+                if (o.status === 'pending') {
+                    actions.push(`<button class="oa-confirm" onclick="respondOrder('${i}', 'confirmed')">Confirm</button>`);
+                }
+                if (o.status !== 'completed') {
+                    actions.push(`<button class="oa-complete" onclick="respondOrder('${i}', 'completed')">Complete</button>`);
+                }
+                actions.push(`<button class="oa-delete" onclick="respondOrder('${i}', 'delete')">Remove</button>`);
+
+                const card = document.createElement('div');
+                card.className = 'order-card';
+                card.innerHTML =
+                    '<div class="order-card-head">' +
+                        '<h4><i class="fa-solid fa-user"></i> ' + o.username + '</h4>' +
+                        '<span class="order-status ' + o.status + '">' + o.status + '</span>' +
+                    '</div>' +
+                    '<div class="order-meta">' +
+                        '<span><i class="fa-solid fa-location-dot"></i> ' + o.location + '</span>' +
+                        '<span><i class="fa-solid fa-clock"></i> ' + new Date(o.date).toLocaleString() + '</span>' +
+                    '</div>' +
+                    '<ul class="order-items-list">' + items + '</ul>' +
+                    '<div class="order-card-foot">' +
+                        '<div class="order-total">Total: $' + Number(o.total).toFixed(2) + '</div>' +
+                        '<div class="order-actions">' + actions.join('') + '</div>' +
+                    '</div>';
+                wrap.appendChild(card);
+            });
+        }
+
+        // respond to an order (called from the action buttons)
+        window.respondOrder = function (index, action) {
+            if (action === 'delete') {
+                allOrders.splice(index, 1);
+            } else {
+                allOrders[index].status = action;
+            }
+            saveOrders();
+            renderOrders();
+        };
+
+        function renderCheckouts() {
+            const today = new Date().toDateString();
+            const todays = allCheckouts.filter((c) => new Date(c.date).toDateString() === today);
+
+            document.getElementById('statCheckouts').textContent = todays.length;
+            document.getElementById('statCheckoutRevenue').textContent =
+                '$' + todays.reduce((a, c) => a + c.total, 0).toFixed(2);
+
+            const table = document.getElementById('checkoutsTable');
+            if (!todays.length) {
+                table.innerHTML = '<div class="dash-empty"><i class="fa-solid fa-cash-register"></i><p>No checkouts recorded today.</p></div>';
+                return;
+            }
+
+            let html = '<div class="dash-table-row head"><span>customer</span><span>time</span><span>items</span><span>amount</span></div>';
+            todays.slice().reverse().forEach((c) => {
+                html += '<div class="dash-table-row">' +
+                    '<span>' + c.username + '</span>' +
+                    '<span>' + new Date(c.date).toLocaleTimeString() + '</span>' +
+                    '<span>' + c.itemsCount + '</span>' +
+                    '<span>$' + Number(c.total).toFixed(2) + '</span>' +
+                '</div>';
+            });
+            table.innerHTML = html;
+        }
+
+        function renderProfile() {
+            document.getElementById('dashName').textContent = session.name;
+            document.getElementById('dashEmail').textContent = session.email;
+            document.getElementById('dashRole').textContent = session.role;
+            document.getElementById('dashInitial').textContent =
+                (session.name || 'C').trim().charAt(0).toUpperCase();
+        }
+
+        document.getElementById('dashLogout').addEventListener('click', () => {
+            localStorage.removeItem('chestiray_user');
+            window.location.href = 'register.html';
+        });
+
+        renderOrders();
+        renderCheckouts();
+        renderProfile();
+    </script>
+</body>
+</html>

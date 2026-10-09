@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="media/Chestiray_W_icon.png" type="image/x-icon">
-    <title>Event Booking - Chestiray</title>
+    <title>Sign In - Chestiray</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+<!-- <base target="_blank"> -->
 </head>
 <body>
     <header>
-        <a href="index.html" class="logo">Chestiray</a>
+        <a href="#" class="logo">
+            <img src="media/Chestiray_V_W_logo.png" alt="">
+        </a>
         <div class="side-nav">
             <nav>
                 <a href="index.html">home</a>
@@ -23,7 +26,9 @@
                 <button id="nav-btn">
                     <i class="fa-solid fa-bars"></i>
                 </button>
-                <button class="profile-btn"><i class="fa-solid fa-user"></i></button>
+                <a href="register.html">
+                    <button class="profile-btn"><i class="fa-solid fa-user"></i></button>
+                </a>
                 <button class="cart-btn">
                     <i class="fa-solid fa-bag-shopping"></i>
                     <span id="counter">0</span>
@@ -35,11 +40,12 @@
     <div class="cart-body">
         <div class="cart-head">
             <div class="cart-title">Your Cart</div>
+            <i class="fa-solid fa-xmark close-cart-btn"></i>
         </div>
         <div class="cart-items"></div>
         <div class="cart-checkout">
             <div class="checkout-top">
-                <p>total</p>
+                <p>total:</p>
                 <div class="cart-total-price">$0.00</div>
             </div>
             <div class="cart-checkout-btn">Checkout Now!</div>
@@ -47,7 +53,7 @@
     </div>
 
     <section class="hero-title">
-        <img src="media/bg-1.jpg" alt="Event Catering">
+        <img src="media/bg-1.jpg" alt="Member Access">
         <div class="overlay"></div>
         <h2>Become A Member</h2>
     </section>
@@ -56,60 +62,59 @@
         <div class="container">
             <div class="booking-card">
                 <h2 class="form-title">Welcome Back</h2>
-                <p><p>
-
+                <p class="form-subtitle">Sign in to place orders, or create a new account in seconds.</p>
 
                 <div class="form-body">
-                    <form class="register-form" onsubmit="event.preventDefault(); alert('Registration successfully!');">
+                    <form class="register-form" id="registerForm">
                         <div class="input-box">
-                            <input type="text" id="fullName" required>
-                            <label for="fullName">Full Name</label>
+                            <input type="text" id="regName" required>
+                            <label for="regName">Full Name</label>
                         </div>
 
                         <div class="input-box">
-                            <input type="email" id="email" required>
-                            <label for="email">Email Address</label>
+                            <input type="email" id="regEmail" required>
+                            <label for="regEmail">Email Address</label>
                         </div>
 
                         <div class="input-box">
-                            <input type="tel" id="phone" required>
-                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="regPhone" required>
+                            <label for="regPhone">Phone Number</label>
                         </div>
 
                         <div class="input-box">
-                            <input type="password" id="password" required>
-                            <label>Type in Password</label>
+                            <input type="password" id="regPassword" required>
+                            <label for="regPassword">Type in Password</label>
                         </div>
 
                         <div class="input-box">
-                            <input type="password" id="confirm-password" required>
-                            <label>Confirm Password</label>
+                            <input type="password" id="regConfirm" required>
+                            <label for="regConfirm">Confirm Password</label>
                         </div>
 
-                        <p><input type="checkbox" name="" id=""> Get updates by email</p>
+                        <p><input type="checkbox" id="regUpdates"> Get updates by email</p>
                         <p>Already have an account <span class="slide-btn">Login</span></p>
 
                         <button type="submit" class="btn-submit">Confirm Registration</button>
                     </form>
 
-                    <form class="login-form" onsubmit="event.preventDefault(); alert('Login successfully!\nWelcome back (username)');">
-
+                    <form class="login-form" id="loginForm">
                         <div class="input-box">
-                            <input type="email" id="email" required>
-                            <label for="email">Email Address</label>
+                            <input type="email" id="loginEmail" required>
+                            <label for="loginEmail">Email Address</label>
                         </div>
 
                         <div class="input-box">
-                            <input type="password" id="password" required>
-                            <label>Type in Password</label>
+                            <input type="password" id="loginPassword" required>
+                            <label for="loginPassword">Type in Password</label>
                         </div>
 
-                        <p>Don't have an account <span class="slide-btn">Signin</span></p>
+                        <p>Don't have an account <span class="slide-btn">Sign Up</span></p>
 
-                        <button type="submit" class="btn-submit">Confirm Registration</button>
+                        <button type="submit" class="btn-submit">Login</button>
+                        <p class="worker-hint">Staff / Owner? Use a work account to reach the business dashboard (demo: owner@chestiray.com &middot; owner123).</p>
                     </form>
                 </div>
-                
+
             </div>
         </div>
     </section>
@@ -157,28 +162,109 @@
     </footer>
 
     <script>
+        /* ---- Slide between login / register forms ---- */
         const slideBtn = document.querySelectorAll('.slide-btn');
-        
+
         slideBtn.forEach((btn) => {
             btn.addEventListener('click', () => {
                 slideForm();
-            })
-        })
+            });
+        });
 
         function slideForm() {
             const formBody = document.querySelector('.form-body');
             const registerTitle = document.querySelector('.form-title');
-            
+
             if (formBody.classList.contains('active')) {
                 formBody.classList.remove('active');
                 registerTitle.textContent = 'Welcome Back';
-            } else if (!formBody.classList.contains('active')) {
+            } else {
                 formBody.classList.add('active');
                 registerTitle.textContent = 'Register For Membership';
             }
         }
+
+        /* ---- Authentication with localStorage ---- */
+        const USERS_KEY = 'chestiray_users';
+        const SESSION_KEY = 'chestiray_user';
+        const WORKERS_KEY = 'chestiray_workers';
+
+        // Seed default worker / owner accounts on first visit
+        if (!localStorage.getItem(WORKERS_KEY)) {
+            localStorage.setItem(WORKERS_KEY, JSON.stringify([
+                { name: 'Chestiray Owner', email: 'owner@chestiray.com', password: 'owner123', role: 'Owner', phone: '+234 800 000 0000' },
+                { name: 'Chestiray Staff', email: 'staff@chestiray.com', password: 'staff123', role: 'Worker', phone: '+234 800 000 0001' }
+            ]));
+        }
+
+        // Registration -> save details, sign in, go to index.html
+        document.getElementById('registerForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim().toLowerCase();
+            const phone = document.getElementById('regPhone').value.trim();
+            const password = document.getElementById('regPassword').value;
+            const confirm = document.getElementById('regConfirm').value;
+
+            if (password !== confirm) {
+                alert('Passwords do not match. Please try again.');
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
+            if (users.some((u) => u.email === email)) {
+                alert('An account with this email already exists. Please login instead.');
+                return;
+            }
+
+            users.push({ name: name, email: email, phone: phone, password: password });
+            localStorage.setItem(USERS_KEY, JSON.stringify(users));
+
+            // keep the session for the profile card & checkout
+            localStorage.setItem(SESSION_KEY, JSON.stringify({ name: name, email: email, phone: phone }));
+
+            alert('Registration successful! Welcome, ' + name + '!');
+            window.location.href = 'index.html';
+        });
+
+        // Login -> workers/owners go to business.html, customers to index.html
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+            const password = document.getElementById('loginPassword').value;
+
+            // worker / owner accounts
+            const workers = JSON.parse(localStorage.getItem(WORKERS_KEY)) || [];
+            const worker = workers.find((w) => w.email === email && w.password === password);
+            if (worker) {
+                localStorage.setItem(SESSION_KEY, JSON.stringify({
+                    name: worker.name,
+                    email: worker.email,
+                    phone: worker.phone,
+                    role: worker.role
+                }));
+                window.location.href = 'business.html';
+                return;
+            }
+
+            // customer accounts
+            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
+            const user = users.find((u) => u.email === email && u.password === password);
+            if (!user) {
+                alert('Invalid email or password.');
+                return;
+            }
+
+            localStorage.setItem(SESSION_KEY, JSON.stringify({
+                name: user.name,
+                email: user.email,
+                phone: user.phone
+            }));
+            window.location.href = 'index.html';
+        });
     </script>
     <script src="index.js"></script>
-    <!-- <script src="https://kit.fontawesome.com/254301e431.js" crossorigin="anonymous"></script> -->
 </body>
 </html>
