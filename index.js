@@ -6,6 +6,15 @@ window.addEventListener("scroll", function () {
   }
 });
 
+const navBtn = document.getElementById("nav-btn");
+const navBody = document.querySelector(".side-nav nav");
+
+console.log(navBody);
+
+navBtn.addEventListener("click", () => {
+  navBody.classList.toggle("show");
+});
+
 // Cart drawer toggle
 const cartBtn = document.querySelector(".cart-btn");
 const cartBody = document.querySelector(".cart-body");
